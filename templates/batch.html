@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-container">
+    <div class="header-card">
+        <span class="sub-heading">High-throughput Inference</span>
+        <h1 class="page-title">Batch House Predictions</h1>
+        <p class="page-subtitle">
+            Upload CSV datasets to process thousands of housing records concurrently and download prediction matrices.
+        </p>
+    </div>
+</section>
+
+<div class="grid-layout cols-2">
+    <!-- Left Column: File Upload Form -->
+    <div class="card upload-card">
+        <h2 class="card-title">Upload Dataset File</h2>
+        <p class="card-description">Choose a CSV file containing property parameters to process.</p>
+        
+        <form action="{{ url_for('batch') }}" method="POST" enctype="multipart/form-data" class="batch-upload-form" id="batch-form">
+            <div class="form-group dropzone" id="drop-zone">
+                <input type="file" id="file-input" name="file" accept=".csv" required class="file-input-hidden">
+                <div class="dropzone-content">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="upload-icon">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p class="dropzone-text">Drag and drop your <strong>.csv</strong> file here, or <span class="dropzone-browse">browse</span></p>
+                    <p class="dropzone-subtext">File must contain columns mapped to: <strong>sqft</strong>, <strong>bedrooms</strong>, <strong>bathrooms</strong>.</p>
+                </div>
+            </div>
+            
+            <div id="file-details-container" class="file-details hidden">
+                <span class="file-icon">📊</span>
+                <div class="file-info-text">
+                    <span id="selected-file-name" class="file-name">filename.csv</span>
+                    <span id="selected-file-size" class="file-size">12 KB</span>
+                </div>
+                <button type="button" id="btn-remove-file" class="btn-close-mini" aria-label="Remove file">&times;</button>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" id="btn-submit-batch" class="btn btn-primary btn-full-width">
+                    <span class="btn-text">Execute Batch Processing</span>
+                    <span class="spinner" aria-hidden="true"></span>
+                </button>
+            </div>
+        </form>
+        
+        <div class="help-box">
+            <h5>Dataset Column Remapping Reference</h5>
+            <p>Your uploaded CSV file columns will automatically be mapped using config settings:</p>
+            <ul class="help-list">
+                <li><strong>sqft</strong> maps to CSV column: <code>GrLivArea</code></li>
+                <li><strong>bedrooms</strong> maps to CSV column: <code>BedroomAbvGr</code></li>
+                <li><strong>bathrooms</strong> maps to CSV column: <code>FullBath</code></li>
+            </ul>
+            <p class="help-note">If columns in your file are named differently, change mappings in <code>config.py</code>.</p>
+        </div>
+    </div>
+    
+    <!-- Right Column: Results Preview -->
+    <div class="card preview-card">
+        <h2 class="card-title">Prediction Preview Matrix</h2>
+        
+        {% if has_results %}
+            <p class="card-description">First 10 records annotated with prediction values. Total rows processed: <strong>{{ total_count }}</strong>.</p>
+            
+            <div class="preview-table-container">
+                {{ preview_table | safe }}
+            </div>
+            
+            <div class="preview-actions">
+                <a href="{{ url_for('download_batch') }}" class="btn btn-primary btn-full-width" id="btn-download-results">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download Predicted CSV Dataset
+                </a>
+            </div>
+        {% else %}
+            <div class="preview-empty-state">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="empty-icon">
+                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                </svg>
+                <h3>No Data Processed</h3>
+                <p>Upload a CSV file on the left to see dynamic predictions and download reports.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

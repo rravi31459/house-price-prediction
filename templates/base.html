@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valuate - Premium House Valuation Engine</title>
+    
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="A production-grade, state-of-the-art house price prediction engine built with scikit-learn Linear Regression. Free instant minimalist estimations.">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Meta tag color scheme & FOUC Prevention Script -->
+    <meta name="color-scheme" content="light dark">
+    <script>
+        {
+            const theme = localStorage.getItem("theme") || "system";
+            if (theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+                document.documentElement.classList.add("dark-theme");
+            } else {
+                document.documentElement.classList.remove("dark-theme");
+            }
+        }
+    </script>
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-container">
+            <a href="{{ url_for('home') }}" class="logo-link" id="nav-logo">
+                <span class="logo-dot"></span>
+                <span class="logo-text">Valuate</span>
+            </a>
+            
+            <nav class="app-nav" aria-label="Main Navigation">
+                <a href="{{ url_for('home') }}" class="nav-item {% if request.path == '/' %}active{% endif %}" id="nav-home">Predict</a>
+                <a href="{{ url_for('model_info') }}" class="nav-item {% if request.path == '/model-info' %}active{% endif %}" id="nav-model">Model Info</a>
+                <a href="{{ url_for('batch') }}" class="nav-item {% if request.path == '/batch' %}active{% endif %}" id="nav-batch">Batch Prediction</a>
+                <a href="{{ url_for('history') }}" class="nav-item {% if request.path == '/history' %}active{% endif %}" id="nav-history">History</a>
+            </nav>
+            
+            <div class="header-actions">
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Color Scheme" title="Toggle dark/light mode">
+                    <!-- Light Mode Icon (Sun) -->
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+                    </svg>
+                    <!-- Dark Mode Icon (Moon) -->
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="app-main-content">
+        <!-- Toast / Flashed Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages-container">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}" role="alert">
+                            <span class="flash-text">{{ message }}</span>
+                            <button class="flash-close-btn" onclick="this.parentElement.remove()" aria-label="Dismiss">&times;</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="app-footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <span class="footer-brand">Valuate Engine</span>
+                <p class="footer-copy">&copy; 2026 Valuate Inc. Portfolio Grade ML Demonstration.</p>
+            </div>
+            <div class="footer-links">
+                <a href="{{ url_for('model_info') }}" class="footer-link">Engine Specs</a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="footer-link">Source Repository</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main Client Javascript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

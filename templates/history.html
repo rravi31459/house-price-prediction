@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section-container">
+    <div class="header-card">
+        <span class="sub-heading">Audit Trail Registry</span>
+        <h1 class="page-title">Valuation History Logs</h1>
+        <p class="page-subtitle">
+            A secure record of previous property valuations computed in this session.
+        </p>
+    </div>
+</section>
+
+<div class="card history-card">
+    <div class="history-header">
+        <h2 class="card-title">Prediction History</h2>
+        
+        {% if history %}
+            <form action="{{ url_for('clear_history') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete all saved valuation history?');">
+                <button type="submit" class="btn btn-secondary btn-danger" id="btn-clear-history">Clear Valuation History</button>
+            </form>
+        {% endif %}
+    </div>
+
+    {% if history %}
+        <p class="card-description">Previous house price valuations ordered by recency. Download reports as PDFs.</p>
+        
+        <div class="table-container">
+            <table class="history-table" id="history-table">
+                <thead>
+                    <tr>
+                        <th class="text-left">Timestamp</th>
+                        <th class="text-left">Report ID</th>
+                        <th class="text-left">Property Details</th>
+                        <th class="text-right">Estimated Price</th>
+                        <th class="text-center">Certificate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in history %}
+                        <tr class="history-row">
+                            <td class="text-left font-mono">{{ item.timestamp }}</td>
+                            <td class="text-left font-mono text-muted">VAL-{{ item.id[:10] }}...</td>
+                            <td class="text-left">{{ item.input_summary }}</td>
+                            <td class="text-right font-semibold price-col">{{ currency }}{{ "{:,.0f}".format(item.estimated_price) }}</td>
+                            <td class="text-center">
+                                <a href="{{ url_for('download_pdf', prediction_id=item.id) }}" class="btn-pdf-link" title="Download Report Certificate" download>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pdf-icon">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                                        <polyline points="10 9 9 9 8 9"></polyline>
+                                    </svg>
+                                    PDF
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="history-empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="empty-icon">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <h3>Registry is Empty</h3>
+            <p>No valuation history has been saved yet. Use the prediction page to run calculations.</p>
+            <a href="{{ url_for('home') }}" class="btn btn-primary" style="margin-top: 15px; display: inline-flex;">Calculate First Estimate</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

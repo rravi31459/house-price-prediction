@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="hero-container">
+        <h1 class="hero-title">Predicting House Prices with Linear Precision.</h1>
+        <p class="hero-subtitle">
+            An elegant, production-ready machine learning engine that provides high-fidelity property valuations using standard architectural features.
+        </p>
+    </div>
+</section>
+
+<div class="grid-layout">
+    <!-- Left Column: Prediction Form -->
+    <div class="card form-card">
+        <h2 class="card-title">House Valuation Parameters</h2>
+        <p class="card-description">Provide property details to calculate the estimated market value.</p>
+        
+        <form id="prediction-form" class="valuation-form" novalidate>
+            <div class="form-group">
+                <label for="input-sqft" class="form-label">Square Footage (Living Area)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="input-sqft" name="sqft" placeholder="e.g. 1800" min="100" max="20000" required class="form-input">
+                    <span class="input-suffix">sq ft</span>
+                </div>
+                <div class="error-msg" id="error-sqft">Please enter a valid square footage (100 to 20,000).</div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="input-bedrooms" class="form-label">Bedrooms</label>
+                    <input type="number" id="input-bedrooms" name="bedrooms" placeholder="e.g. 3" min="0" max="15" required class="form-input">
+                    <div class="error-msg" id="error-bedrooms">Please enter bedroom count (0 to 15).</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="input-bathrooms" class="form-label">Bathrooms</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="input-bathrooms" name="bathrooms" placeholder="e.g. 2.5" min="0.5" max="10" step="0.5" required class="form-input">
+                    </div>
+                    <div class="error-msg" id="error-bathrooms">Please enter bathroom count (0.5 to 10).</div>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" id="btn-predict" class="btn btn-primary">
+                    <span class="btn-text">Calculate Estimate</span>
+                    <span class="spinner" aria-hidden="true"></span>
+                </button>
+                <button type="button" id="btn-reset" class="btn btn-secondary">Reset</button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Right Column: Result Card & Stats -->
+    <div class="card result-card" id="valuation-result-card" aria-live="polite">
+        <!-- Initial Blank State -->
+        <div class="result-empty-state" id="result-empty">
+            <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <h3>Awaiting Valuation Parameters</h3>
+            <p>Fill out the property specifications form to run the prediction model.</p>
+        </div>
+        
+        <!-- Loading State -->
+        <div class="result-loading-state hidden" id="result-loading">
+            <div class="loading-pulse"></div>
+            <p>Running Ordinary Least Squares inference...</p>
+        </div>
+        
+        <!-- Active Prediction Result State -->
+        <div class="result-active-state hidden" id="result-active">
+            <span class="result-pill">Estimated Value</span>
+            
+            <div class="result-price-container">
+                <span class="currency-symbol" id="result-currency"></span>
+                <span class="price-value" id="result-price"></span>
+            </div>
+            
+            <div class="result-meta-item">
+                <span class="meta-label">Specification:</span>
+                <span class="meta-value" id="result-summary"></span>
+            </div>
+            
+            <div class="result-meta-item">
+                <span class="meta-label">Confidence:</span>
+                <span class="meta-value confidence-text" id="result-confidence"></span>
+            </div>
+            
+            <div class="result-meta-item">
+                <span class="meta-label">Calculated At:</span>
+                <span class="meta-value" id="result-timestamp"></span>
+            </div>
+            
+            <div class="result-actions">
+                <a href="" id="pdf-download-link" class="btn btn-primary btn-full-width">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download PDF Certificate
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="features-info-section">
+    <div class="features-info-grid">
+        <div class="card info-mini-card">
+            <h4>Dataset Flexibility</h4>
+            <p>Easily swap schemas. Column mappings are stored in the configuration file, letting you replace the source dataset seamlessly.</p>
+        </div>
+        <div class="card info-mini-card">
+            <h4>Clean Architecture</h4>
+            <p>Modular data loaders, outlier cleaners, pipelines, and estimators built for maintainability, reuse, and scale.</p>
+        </div>
+        <div class="card info-mini-card">
+            <h4>Validated Inference</h4>
+            <p>Our server enforces type constraints, value ranges, and handles mathematical errors gracefully, logging all operations.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

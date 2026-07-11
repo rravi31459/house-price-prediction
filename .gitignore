@@ -1,0 +1,37 @@
+# Python environment
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+instance/
+.webassets-cache
+.pytest_cache/
+.coverage
+htmlcov/
+.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Project specifics
+app.log
+data/uploads/
+data/pdfs/
+data/prediction_history.json
+
+# Model files (keep configurations but ignore large serialized weights except registry template)
+# Actually in ML projects it's standard to exclude heavy serialized models,
+# but we can let them be saved locally. We ignore all .joblib files under models/
+# but keep models/.gitkeep or keep models directory structure.
+models/*.joblib
+!models/model_latest.joblib  # Keep latest for fast startup if needed, or ignore all
+models/model_*.joblib
+models/metadata_*.json
+!models/metadata_latest.json # Keep latest metadata
+
+# OS specific files
+.DS_Store
+Thumbs.db

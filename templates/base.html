@@ -16,18 +16,8 @@
     <!-- Custom style -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     
-    <!-- Meta tag color scheme & FOUC Prevention Script -->
-    <meta name="color-scheme" content="light dark">
-    <script>
-        {
-            const theme = localStorage.getItem("theme") || "system";
-            if (theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-                document.documentElement.classList.add("dark-theme");
-            } else {
-                document.documentElement.classList.remove("dark-theme");
-            }
-        }
-    </script>
+    <!-- Meta tag color scheme -->
+    <meta name="color-scheme" content="light">
 </head>
 <body>
     <header class="app-header">
@@ -43,20 +33,6 @@
                 <a href="{{ url_for('batch') }}" class="nav-item {% if request.path == '/batch' %}active{% endif %}" id="nav-batch">Batch Prediction</a>
                 <a href="{{ url_for('history') }}" class="nav-item {% if request.path == '/history' %}active{% endif %}" id="nav-history">History</a>
             </nav>
-            
-            <div class="header-actions">
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Color Scheme" title="Toggle dark/light mode">
-                    <!-- Light Mode Icon (Sun) -->
-                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="4"></circle>
-                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
-                    </svg>
-                    <!-- Dark Mode Icon (Moon) -->
-                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-                    </svg>
-                </button>
-            </div>
         </div>
     </header>
 

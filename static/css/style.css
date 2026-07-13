@@ -46,36 +46,7 @@
     --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     
     /* Native color-scheme adaptation */
-    color-scheme: light dark;
-}
-
-/* Dark Theme overrides when .dark-theme class is active */
-.dark-theme {
-    --color-bg-base: #09090b;
-    --color-bg-surface: #121214;
-    --color-bg-inset: #1a1a1e;
-    
-    --color-border: #27272a;
-    --color-border-hover: #3f3f46;
-    
-    --color-text-primary: #f4f4f5;
-    --color-text-secondary: #a1a1aa;
-    --color-text-muted: #52525b;
-    
-    --color-accent: #6366f1;
-    --color-accent-hover: #4f46e5;
-    --color-accent-soft: rgba(99, 102, 241, 0.12);
-    
-    --color-danger: #f87171;
-    --color-danger-hover: #ef4444;
-    
-    --color-success: #34d399;
-    --color-success-soft: rgba(52, 211, 153, 0.12);
-    
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
-    --shadow-inset: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    color-scheme: light;
 }
 
 /* Global Styles */
@@ -208,16 +179,7 @@ body {
 .sun-icon {
     display: block;
 }
-.moon-icon {
-    display: none;
-}
 
-.dark-theme .sun-icon {
-    display: none;
-}
-.dark-theme .moon-icon {
-    display: block;
-}
 
 /* Hero Section */
 .hero-section {
@@ -843,11 +805,7 @@ body {
     mix-blend-mode: multiply;
 }
 
-.dark-theme .diagnostic-img {
-    /* Since graphs are saved with white backgrounds, invert colors partially in dark mode for premium look,
-       or filter them to blend with dark themes */
-    filter: invert(0.85) hue-rotate(180deg);
-}
+
 
 /* History logs page styling */
 .history-header {

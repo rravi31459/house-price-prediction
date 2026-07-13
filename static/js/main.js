@@ -3,40 +3,7 @@
    ---------------------------------------------------- */
 
 document.addEventListener("DOMContentLoaded", () => {
-    // ------------------------------------------------
-    // 1. Dark/Light Theme Manager
-    // ------------------------------------------------
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    
-    // Check local storage or system preference
-    const getSavedTheme = () => localStorage.getItem("theme") || "system";
-    
-    const applyTheme = (theme) => {
-        if (theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-            document.documentElement.classList.add("dark-theme");
-        } else {
-            document.documentElement.classList.remove("dark-theme");
-        }
-    };
-    
-    // Initial theme calculation
-    applyTheme(getSavedTheme());
-    
-    // Click toggle handler (Two-state behavior)
-    themeToggleBtn.addEventListener("click", () => {
-        const isCurrentDark = document.documentElement.classList.contains("dark-theme");
-        const targetTheme = isCurrentDark ? "light" : "dark";
-        
-        localStorage.setItem("theme", targetTheme);
-        applyTheme(targetTheme);
-    });
-    
-    // Listen for OS system theme changes
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-        if (getSavedTheme() === "system") {
-            applyTheme("system");
-        }
-    });
+    // Theme selection has been disabled. Light theme is locked.
 
     // ------------------------------------------------
     // 2. Prediction Form & Async valuation Engine
